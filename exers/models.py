@@ -7,8 +7,9 @@ def namer(instance,filename):
 class Exer(models.Model):
     name = models.CharField(max_length=150)
     date = models.DateTimeField(auto_now_add=True)
-    ex_file = models.FileField(upload_to=namer)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    ex_file = models.FileField(upload_to=namer,null=True)
+    sou_file = models.FileField(upload_to=namer,null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     likes = models.IntegerField(default=0)
     speciality = models.ForeignKey('Speciality',on_delete=models.CASCADE)
     solution = models.BooleanField(default=True)

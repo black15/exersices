@@ -29,3 +29,21 @@ def exers(request):
 
         serializer = ExerSerializer(data,many=True)
         return Response(serializer.data)
+
+@api_view(['POST'])
+
+def add_a_ex(request):
+    if request.method=='POST':
+        ex_file = request.FILES.get('ex_file')
+        sou_file = request.FILES.get('sou_file')
+        print(ex_file)
+        print(sou_file)
+        serializer = ExerSerializer(data=request.data,Files=request.FILES)
+
+        data={}
+        data['msg']=False
+        if serializer.is_valid():
+            serializer.save()
+            data['msg']=True
+            return Response(data)
+        return Response(data)
