@@ -1,15 +1,10 @@
-from django.shortcuts import render
-from rest_framework.response import Response
-import datetime
-from itertools import chain
-from rest_framework.decorators import api_view
-from rest_framework import status
-from .serializers import ExerSerializer
+from django.shortcuts import render,redirect
+from .forms import AddAnAexerForms
 # Create your views here.
 from .models import * 
 def home(request):
-    return render(request,'index.htm')
-
+    return render(request,'home.htm')
+'''
 @api_view(['POST','GET'])
 def exers(request):
     print('@@@@@@@@@@@@@@@@@@@')
@@ -30,20 +25,16 @@ def exers(request):
         serializer = ExerSerializer(data,many=True)
         return Response(serializer.data)
 
-@api_view(['POST'])
-
+'''
 def add_a_ex(request):
-    if request.method=='POST':
-        ex_file = request.FILES.get('ex_file')
-        sou_file = request.FILES.get('sou_file')
-        print(ex_file)
-        print(sou_file)
-        serializer = ExerSerializer(data=request.data,Files=request.FILES)
+    form = AddAnAexerForms()
+    if request.method =='POST':
+        form = AddAnAexerForms(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("exers:add")
+    context = {
+        'form' : form
 
-        data={}
-        data['msg']=False
-        if serializer.is_valid():
-            serializer.save()
-            data['msg']=True
-            return Response(data)
-        return Response(data)
+    }
+    return render(request,'exers/add.html',context)

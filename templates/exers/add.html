@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Add {% endblock title %}
+{% block links %}
+<link rel='stylesheet' href='{% static "css/add.css" %}'>
+{% endblock links %}
+{% block body %}
+
+<div class="container">
+    <div class='add_page'>
+    <form class='add_form' id='save-form' method='post'  enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="add_childs">
+            <div class="form-child">
+                <label class='form_label'>{{form.name.label}} </label>
+                {{form.name}}
+            </div>
+            <div class="form-child">
+                <label class='form_label' >{{form.subject.label}} </label>
+                    {{form.subject}}
+            </div>
+            <div class="form-child">
+                <label class='form_label' >{{form.speciality.label}} </label>
+                    {{form.speciality}}
+            </div>
+            <div class="form-child">
+                <label class='form_label' > {{form.ex_file.label}} </label>
+                {{form.ex_file}}
+            </div>
+            <div class="form-child">
+                <label htmlFor='solution_file' class='form_label' >  {{form.sou_file.label}} </label>
+                {{form.sou_file}}
+            </div>
+
+        </div>
+        <div class="add-btn">
+            <button class="add-sub"    >save<button>
+        </div>
+    </form>
+    </div>
+
+</div>
+
+<script src='{% static 'js/add.js' %}'> </script>
+{% endblock body %}

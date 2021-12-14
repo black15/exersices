@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 def namer(instance,filename):
-    name = instance.user.username +'/'+filename
+    if instance.user:
+        name = instance.user.username +'/'+filename
+    else:
+        name = 'other/'+filename
     return name
 class Exer(models.Model):
     name = models.CharField(max_length=150)

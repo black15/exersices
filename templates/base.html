@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <title>
+    {% block title %}
+    {% endblock title %}
+    </title>
+    
+    <link rel='stylesheet' href='{% static "css/main.css" %}'>
+
+        {% block links %}
+        {% endblock links %}
+</head>
+
+<body>
+    <div class="navbar">
+        <nav class='main__nav'>
+          <ul>
+            <li  class="menu__item active"><a href="{%  url 'exers:home'  %}">Home</a></li>
+            <li  class="menu__item"><a href="{% url 'exers:add'  %}">Add</a></li>
+          </ul>
+        </nav>
+      </div>
+      
+
+{% block body %}
+
+{% endblock body %}
+</body>
+
+</html>
