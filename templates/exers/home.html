@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+{% block links %}
+<link rel='stylesheet' href='{% static "css/home.css" %}'>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+{% endblock links %}
+{% block body %}
+
+
+<div class="">    
+    <main>
+        
+        <!--MDB Tables-->
+        <div class="container mt-4">
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <!-- Grid row -->
+                    <div class="row">
+                        <!-- Grid column -->
+                        <div class="col-md-12">
+                            <h2 class="pt-3 pb-2 text-center font-bold font-up deep-purple-text">Search for Exersices</h2>
+                            <div class="input-group md-form form-sm form-2 pl-0">
+                                <form action='{% url "exers:search" %}' method="get"> {% csrf_token %}
+                                <input class="form-control my-0 py-1 pl-3 purple-border" type="text" placeholder="Search something here..." aria-label="Search" name="q">
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Grid column -->
+                    </div>
+                    <!-- Grid row -->
+                    <!--Table-->
+                    <table class="table table-hover mt-5">
+                        <!--Table head-->
+                        <thead>
+                            <tr class="table">
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Module</th>
+                                <th>Speciality</th>
+                                <th>File</th>
+                                <th>Solution</th>
+                            </tr>
+                        </thead>
+                        <!--Table head-->
+                        <!--Table body-->
+                        <tbody>
+                            {% for exercise in exercises %}
+                                <tr>
+                                    <th scope="row">{{ exercise.id }}</th>
+                                    <td>{{ exercise.name }}</td>
+                                    <td>{{ exercise.subject }}</td>
+                                    <td>{{ exercise.speciality }}</td>
+                                    <td><a href='{{ exercise.ex_file }}'>PDF</a></td>
+                                    <td><a href='{{ exercise.sou_file }}'>PDF</a></td>
+                                </tr>
+                            {% endfor %}
+                            
+                            {% if all_search_results %}
+                                {% for exercise in all_search_results %}
+                                    <tr>
+                                        <th scope="row">{{ exercise.id }}</th>
+                                        <td>{{ exercise.name }}</td>
+                                        <td>{{ exercise.subject }}</td>
+                                        <td>{{ exercise.speciality }}</td>
+                                        <td><a href='{{ exercise.ex_file }}'>PDF</a></td>
+                                        <td><a href='{{ exercise.sou_file }}'>PDF</a></td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                        <!--Table body-->
+                    </table>
+                    <!--Table-->
+                </div>
+            </div>
+
+
+        </div>
+        <!--MDB Tables-->
+      
+    </main>
+  
+</div>
+
+{% endblock body %}

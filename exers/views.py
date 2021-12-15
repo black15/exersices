@@ -1,31 +1,20 @@
 from django.shortcuts import render,redirect
 from .forms import AddAnAexerForms
+from django.db.models import Q
+from django.views.generic import ListView
+
 # Create your views here.
-from .models import * 
+from .models import *
+
 def home(request):
-    return render(request,'home.htm')
-'''
-@api_view(['POST','GET'])
-def exers(request):
-    print('@@@@@@@@@@@@@@@@@@@')
+    context = {}
 
-    print(request)
-    print('@@@@@@@@@@@@@@@@@@@')
-    if request.method=="GET":
-        data = Exer.objects.all()
-        serializer = ExerSerializer(data,many=True)
-        return Response(serializer.data)
-    if request.method=='POST':
-        q = request.data.get('q')
-        with_solution=not request.data.get('with_solution')
-        print(with_solution)
-        data = Exer.objects.filter(subject_name__icontains=q).exclude(solution=with_solution)
-#        data2 = Exer.objects.filter(name__icontains=q).exclude(solution=with_solution)
+    exercises = Exer.objects.all()
 
-        serializer = ExerSerializer(data,many=True)
-        return Response(serializer.data)
+    context['exercises'] = exercises
+    return render(request,'exers/home.html', context)
 
-'''
+
 def add_a_ex(request):
     form = AddAnAexerForms()
     if request.method =='POST':
@@ -38,3 +27,19 @@ def add_a_ex(request):
 
     }
     return render(request,'exers/add.html',context)
+
+class SearchView(ListView):
+
+    model = Exer
+    template_name = 'exers/home.html'
+    context_object_name = 'all_search_results'
+
+    def get_queryset(self):
+       result = super(SearchView, self).get_queryset()
+       query = self.request.GET.get('q')
+       if query:
+          postresult = Exer.objects.filter(name__contains=query)
+          result = postresult
+       else:
+           result = None
+       return result

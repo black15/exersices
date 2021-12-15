@@ -16,3 +16,4 @@ class AddAnAexerForms(forms.ModelForm):
         self.fields['subject'].label = 'module'
         self.fields['ex_file'].label = 'File'
         self.fields['sou_file'].label = 'Solution File'
+
